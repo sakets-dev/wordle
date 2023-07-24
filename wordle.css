@@ -83,6 +83,12 @@ a{
     border-color: rgb(110, 117, 103);
 }
 
+.keyboard_absent { 
+    background-color: rgba(205, 121, 121, 0.865);
+    color: rgb(0, 0, 0);
+    border-color: rgb(110, 117, 103);
+}
+
 .keyboard-row {
     width: 400px;
 
@@ -123,4 +129,13 @@ a{
 
 #answer { 
     font-size: 15px;
+}
+
+.confetti {
+    width: 10px;
+    height: 10px;
+    background-color: #ffbc33;
+    border-radius: 50%;
+    position: fixed;
+    z-index: 999;
 }
