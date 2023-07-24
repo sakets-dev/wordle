@@ -118,7 +118,7 @@ function processInput(e) {
 
     if (!gameOver && row == height) {   // check if game is over and if person is on final row then output the answer and game over 
         gameOver = true;
-        document.getElementById("answer").innerText = word;
+        document.getElementById("answer").innerText = "THE WORD WAS "+word;
     }
 }
 
@@ -162,50 +162,60 @@ function update() {
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
-
-        //Is it in the correct position?
+    
+        // Is it in the correct position?
         if (word[c] == letter) {
             currTile.classList.add("correct");
-
-            let keyTile = document.getElementById("Key" + letter); // key+letter format needed
+    
+            let keyTile = document.getElementById("Key" + letter);
             keyTile.classList.remove("present");
             keyTile.classList.add("correct");
-// for the letter count taken from the previous function, check if it matches the letter in the actuall guess if yes then assign it present or correct 
+    
             correct += 1;
-            letterCount[letter] -= 1; //deduct the letter count
+            letterCount[letter] -= 1; // Deduct the letter count
         }
-
+    
         if (correct == width) {
             gameOver = true;
         }
     }
-
-    console.log(letterCount);
-    //go again and mark which ones are present but in wrong position
+    
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
-
-        // skip the letter if it has been marked correct
+    
+        // Skip the letter if it has been marked correct
         if (!currTile.classList.contains("correct")) {
-            //Is it in the word?         //make sure we don't double count
+            // Is it in the word? and make sure we don't double count
             if (word.includes(letter) && letterCount[letter] > 0) {
-                currTile.classList.add("present");
-                
-                let keyTile = document.getElementById("Key" + letter);
-                if (!keyTile.classList.contains("correct")) {
-                    keyTile.classList.add("present");
+                // Check if the letter is already present or correct
+                if (!currTile.classList.contains("present") && !currTile.classList.contains("correct")) {
+                    currTile.classList.add("present");
+                    
+                    let keyTile = document.getElementById("Key" + letter);
+                    if (!keyTile.classList.contains("correct")) {
+                        keyTile.classList.add("present");
+                    }
+                    letterCount[letter] -= 1;
                 }
-                letterCount[letter] -= 1;
-            } // Not in the word or (was in word but letters all used up to avoid overcount)
-            else {
+            } else { // Not in the word or (was in the word but letters all used up to avoid overcount)
                 currTile.classList.add("absent");
                 let keyTile = document.getElementById("Key" + letter);
-                keyTile.classList.add("absent")
+                keyTile.classList.add("keyboard_absent");
             }
         }
     }
+        // Check if the player has won
+        if (correct === width) {
+            gameOver = true;
+            
+            document.getElementById("answer").innerText = "YOU WIN";
+            createConfetti();
+            updateConfetti();
+        }
 // after every guess this happens: 
     row += 1; //start new row
     col = 0; //start at 0 for new row
+   
 }
+
