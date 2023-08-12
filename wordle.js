@@ -199,7 +199,7 @@ function update() {
                     letterCount[letter] -= 1;
                 }
             } else { // Not in the word or (was in the word but letters all used up to avoid overcount)
-                currTile.classList.add("absent");
+                currTile.classList.add("keyboard_absent");
                 let keyTile = document.getElementById("Key" + letter);
                 keyTile.classList.add("keyboard_absent");
             }
